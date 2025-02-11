@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-
 import '@/styles/global.css';
 
 const pretendard = localFont({
@@ -22,8 +21,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={`${pretendard.className} px-32 antialiased`}>
-        {children}
+      <body className={`${pretendard.className}`}>
+        <header className='px-4 py-10'>
+          <div className='max-w-primary mx-auto'>
+            <h1 className='mb-4 text-5xl font-extrabold'>To Do List</h1>
+            <div>
+              <p className='font-medium text-gray-700'>
+                Here all tasks in the project.
+              </p>
+              <p className='font-medium text-gray-700'>
+                You will find information for each as well as assignees
+                responsible for completion
+              </p>
+            </div>
+          </div>
+        </header>
+        <main className='max-w-primary mx-auto min-h-[70vh] px-4'>
+          {children}
+        </main>
       </body>
     </html>
   );
