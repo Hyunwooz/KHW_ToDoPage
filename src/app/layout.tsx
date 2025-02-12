@@ -22,21 +22,26 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className}`}>
-        <header className='px-4 py-10'>
-          <div className='max-w-primary mx-auto'>
-            <h1 className='mb-4 text-5xl font-extrabold'>To Do List</h1>
+        <header className='px-4 py-14'>
+          <div className='mx-auto flex max-w-primary flex-col justify-between gap-4 lg:flex-row lg:items-end'>
             <div>
-              <p className='font-medium text-gray-700'>
-                Here all tasks in the project.
-              </p>
-              <p className='font-medium text-gray-700'>
-                You will find information for each as well as assignees
-                responsible for completion
-              </p>
+              <h1 className='mb-4 text-5xl font-extrabold'>To Do List</h1>
+              <div>
+                <p className='font-medium text-gray-700'>
+                  Here all tasks in the project.
+                </p>
+                <p className='font-medium text-gray-700'>
+                  You will find information for each as well as assignees
+                  responsible for completion
+                </p>
+              </div>
             </div>
+            <button className='h-12 w-32 rounded-xl bg-black font-bold text-white'>
+              + New Tasks
+            </button>
           </div>
         </header>
-        <main className='max-w-primary mx-auto min-h-[70vh] px-4'>
+        <main className='mx-auto min-h-[70vh] max-w-primary px-4'>
           {children}
         </main>
       </body>
