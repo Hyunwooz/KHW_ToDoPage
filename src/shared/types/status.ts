@@ -1,8 +1,9 @@
-export type StatusColor = 'green' | 'blue' | 'red' | 'yellow';
-export type Task = { title: string; toDoLists: string[] };
+import { Board } from './board';
 
-export interface TaskStatus {
+export type StatusColor = 'green' | 'blue' | 'red' | 'yellow';
+export interface Status {
+  statusNo: number;
   name: string;
   color: StatusColor;
-  tasks: Task[];
+  boards: Board[];
 }
