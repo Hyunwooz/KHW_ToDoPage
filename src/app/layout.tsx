@@ -37,7 +37,7 @@ export default function RootLayout({
               </div>
             </div>
             <button className='h-12 w-32 rounded-xl bg-black font-bold text-white'>
-              + New Tasks
+              + New Board
             </button>
           </div>
         </header>
