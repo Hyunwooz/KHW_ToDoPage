@@ -11,7 +11,15 @@ interface StatusCardBoxProps {
 
 const StatusCardBox = ({ status }: StatusCardBoxProps) => {
   const { ring } = getStatusColor(status.color);
-  const [tasks, setTasks] = useState(status.tasks); // 할 일 상태 관리
+  const [tasks, setTasks] = useState(status.tasks);
+
+  const reorderToDoLists = (taskTitle: string, newToDoLists: string[]) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.title === taskTitle ? { ...task, toDoLists: newToDoLists } : task,
+      ),
+    );
+  };
 
   return (
     <div className='min-h-[300px] rounded-lg bg-gray-50 p-4'>
