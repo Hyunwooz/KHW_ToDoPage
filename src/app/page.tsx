@@ -1,10 +1,10 @@
 'use client';
 
-import BoardContainer from '@/components/boardContainer';
+import BoardContainer from '@/components/board/boardContainer';
 
 const Home = () => {
   return (
-    <div>
+    <div className='py-10'>
       <header className='px-4 py-14'>
         <div className='mx-auto flex max-w-primary flex-col justify-between gap-4 lg:flex-row lg:items-end'>
           <div>
