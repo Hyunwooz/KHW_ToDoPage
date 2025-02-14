@@ -1,8 +1,10 @@
 'use client';
 
 import BoardContainer from '@/components/board/boardContainer';
+import { useBoardStore } from '@/store/useBoardStore';
 
 const Home = () => {
+  const { addBoard, lastBoardNo } = useBoardStore();
   return (
     <div className='py-10'>
       <header className='px-4 py-14'>
@@ -19,7 +21,10 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <button className='h-12 w-32 rounded-xl bg-black font-bold text-white'>
+          <button
+            className='h-12 w-32 rounded-xl bg-black font-bold text-white'
+            onClick={() => addBoard(1, `테스트${lastBoardNo}`)}
+          >
             + New Board
           </button>
         </div>
