@@ -1,6 +1,6 @@
 import { Board } from './board';
 
-export type StatusColor = 'green' | 'blue' | 'red' | 'yellow';
+export type StatusColor = 'green' | 'blue' | 'red' | 'gray';
 export interface Status {
   statusNo: number;
   name: string;

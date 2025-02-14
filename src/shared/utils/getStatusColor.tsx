@@ -32,12 +32,12 @@ const getStatusColor = (color: StatusColor) => {
       boardHover: 'hover:bg-red-50',
       listHover: 'hover:bg-red-200',
     },
-    yellow: {
-      ring: 'bg-yellow-300',
-      bg: 'bg-yellow-50',
-      border: 'border-yellow-300',
-      boardHover: 'hover:bg-yellow-50',
-      listHover: 'hover:bg-yellow-200',
+    gray: {
+      ring: 'bg-gray-300',
+      bg: 'bg-gray-50',
+      border: 'border-gray-300',
+      boardHover: 'hover:bg-gray-50',
+      listHover: 'hover:bg-gray-200',
     },
   };
 

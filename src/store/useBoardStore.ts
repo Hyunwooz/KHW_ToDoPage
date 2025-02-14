@@ -28,9 +28,9 @@ export const useBoardStore = create<BoardStore>()(
       lastTodoNo: 0,
       statuses: [
         { statusNo: 1, name: '해야 할 일', color: 'blue', boards: [] },
-        { statusNo: 2, name: '진행 중', color: 'yellow', boards: [] },
+        { statusNo: 2, name: '진행 중', color: 'green', boards: [] },
         { statusNo: 3, name: '보류', color: 'red', boards: [] },
-        { statusNo: 4, name: '완료됨', color: 'green', boards: [] },
+        { statusNo: 4, name: '완료됨', color: 'gray', boards: [] },
       ],
       draggedBoard: null,
 
