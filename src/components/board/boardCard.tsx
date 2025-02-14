@@ -3,6 +3,7 @@
 import getStatusColor from '@/shared/utils/getStatusColor';
 import { StatusColor } from '@/shared/types/status';
 import { Board } from '@/shared/types/board';
+import { Todo } from '@/shared/types/todo';
 
 interface StatusCardProps {
   color: StatusColor;
@@ -19,13 +20,13 @@ const BoardCard = ({ color, board }: StatusCardProps) => {
       <h3 className='text-xl font-semibold'>{board.title}</h3>
       <ul className='flex flex-col gap-1'>
         {board.todos.length > 0 ? (
-          board.todos.map((value, index) => (
+          board.todos.map((todo: Todo) => (
             <li
-              key={index}
+              key={todo.todoNo}
               draggable
               className='w-fit cursor-move rounded px-2 py-1 hover:bg-gray-100'
             >
-              {value}
+              {todo.content}
             </li>
           ))
         ) : (
