@@ -1,7 +1,7 @@
 import { Board } from '@/shared/types/board';
 import { StatusColor } from '@/shared/types/status';
 import TodoItem from './TodoItem';
-import { ArchiveIcon, ActiveIcon } from '@/components/icons';
+import { ArchiveIcon, ActiveIcon } from '@/components/icons/Icon';
 import getStatusColor from '@/shared/utils/getStatusColor';
 
 interface BoardCardProps {

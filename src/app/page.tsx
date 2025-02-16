@@ -1,13 +1,14 @@
 'use client';
 
 import BoardContainer from '@/components/main/BoardContainer';
-import { useBoardStore } from '@/store/useBoardStore';
+import { useStatusStore } from '@/store/useStatusStore';
 
 const Home = () => {
-  const { getActiveBoards } = useBoardStore();
+  const { getActiveBoards } = useStatusStore();
+
   return (
     <div className='pb-10'>
-      <BoardContainer boards={getActiveBoards()} />
+      <BoardContainer statuses={getActiveBoards()} />
     </div>
   );
 };
