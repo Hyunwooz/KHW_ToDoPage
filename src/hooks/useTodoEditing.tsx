@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export const useTodoEditing = (
-  boardTodos: { todoNo: number; content: string }[],
+  boardTodos: { todoNo: number; content: string },
   updateTodoContent: (
     statusNo: number,
     boardNo: number,
@@ -15,12 +15,7 @@ export const useTodoEditing = (
   const [editTodoContent, setEditTodoContent] = useState('');
 
   const handleTodoSubmit = (todoNo: number) => {
-    const currentTodo = boardTodos.find((t) => t.todoNo === todoNo);
-
-    if (editTodoContent.trim() && editTodoContent !== currentTodo?.content) {
-      updateTodoContent(statusNo, boardNo, todoNo, editTodoContent.trim());
-    }
-
+    updateTodoContent(statusNo, boardNo, todoNo, editTodoContent.trim());
     setEditingTodoNo(null);
   };
 
