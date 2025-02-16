@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/styles/global.css';
+import ClientLayout from '@/components/layout/ClientLayout';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -10,7 +11,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'ToDo Page',
+  title: 'ToDo',
   description: '업무의 효율을 증진시키기 위한 칸반형태의 To-Do List 입니다.',
 };
 
@@ -22,9 +23,7 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className}`}>
-        <main className='mx-auto min-h-[70vh] max-w-primary px-4'>
-          {children}
-        </main>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
