@@ -1,12 +1,11 @@
 import { useStatusStore } from '@/store/useStatusStore';
-import { Board } from '@/shared/types/board';
 
-export const useAvailableMoveBoards = (board: Board) => {
+export const useAvailableMoveBoards = (boardNo: number) => {
   const { getActiveBoards } = useStatusStore();
 
   const availableBoards = getActiveBoards()
     .flatMap((status) => status.boards)
-    .filter((b) => b.boardNo !== board.boardNo)
+    .filter((b) => b.boardNo !== boardNo)
     .map((b) => ({
       boardNo: b.boardNo,
       title: b.title || '(제목 없음)',
