@@ -36,7 +36,6 @@
 ├── app                     # Next.js의 App Router 구조, 페이지 및 레이아웃 관리
 ├── components              # UI 컴포넌트
 ├── hooks                   # 커스텀 훅
-├── pages                   # Next.js 페이지
 ├── services                # 비즈니스 로직
 ├── shared                  # 공통 타입 및 유틸리티 함수 관리
 ├── store                   # Zustand 상태 관리
