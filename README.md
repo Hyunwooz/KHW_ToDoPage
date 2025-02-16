@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kanban To-Do List
 
-## Getting Started
+## 프로젝트 개요
 
-First, run the development server:
+업무의 효율을 증진시키기 위한 칸반 형태의 To-Do List 애플리케이션입니다. 사용자는 보드를 생성하고, 할 일을 추가하며, 드래그 앤 드롭을 통해 보드 및 할 일의 위치를 변경할 수 있습니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 기술 스택
+
+- **Framework**: Next.js 15.x.x
+- **Styling**: Tailwind CSS 3.x.x
+- **State Management**: Zustand
+- **Language**: TypeScript
+- **Storage**: LocalStorage
+
+## 기능 명세
+
+### 보드 관리
+
+- 보드를 생성할 수 있습니다.
+- 보드의 제목을 수정할 수 있습니다.
+- 보드를 삭제할 수 있습니다.
+- 보드의 순서를 변경할 수 있습니다.
+
+### 할 일 관리
+
+- 보드 안에서 할 일을 생성할 수 있습니다.
+- 할 일의 내용을 수정할 수 있습니다.
+- 할 일을 삭제할 수 있습니다.
+- 보드 내에서 할 일의 순서를 변경할 수 있습니다.
+- 할 일을 다른 보드로 이동할 수 있습니다.
+
+## 프로젝트 구조
+
+```
+/src
+├── app                     # Next.js의 App Router 구조, 페이지 및 레이아웃 관리
+├── components              # UI 컴포넌트
+├── hooks                   # 커스텀 훅
+├── pages                   # Next.js 페이지
+├── services                # 비즈니스 로직 (boardService, todoService 등)
+├── shared                  # 공통 타입 및 유틸리티 함수 관리
+├── store                   # Zustand 상태 관리 (useBoardStore, useTodoStore 등)
+└── styles                  # Tailwind 설정 및 전역 스타일
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 주요 라이브러리
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| 라이브러리   | 설명                            |
+| ------------ | ------------------------------- |
+| Next.js      | React 기반의 프레임워크         |
+| Tailwind CSS | 유틸리티 퍼스트 CSS 프레임워크  |
+| Zustand      | 상태 관리 라이브러리            |
+| TypeScript   | 정적 타입을 지원하는 JavaScript |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 설치 및 실행 방법
 
-## Learn More
+```sh
+# 프로젝트 클론
+git clone <repo_url>
 
-To learn more about Next.js, take a look at the following resources:
+# 패키지 설치
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 개발 서버 실행
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 사용법
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **보드 추가**: 보드를 생성하려면 ‘보드 추가’ 버튼을 클릭하세요.
+2. **할 일 추가**: 각 보드 내에서 ‘할 일 추가’ 버튼을 눌러 할 일을 생성하세요.
+3. **드래그 앤 드롭**: 보드 및 할 일의 위치를 마우스로 드래그하여 변경할 수 있습니다.
+4. **보드/할 일 수정 및 삭제**: 보드 또는 할 일의 옵션 버튼을 클릭하여 수정 또는 삭제할 수 있습니다.
