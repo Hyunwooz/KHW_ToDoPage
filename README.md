@@ -37,10 +37,10 @@
 ├── components              # UI 컴포넌트
 ├── hooks                   # 커스텀 훅
 ├── pages                   # Next.js 페이지
-├── services                # 비즈니스 로직 (boardService, todoService 등)
+├── services                # 비즈니스 로직
 ├── shared                  # 공통 타입 및 유틸리티 함수 관리
-├── store                   # Zustand 상태 관리 (useBoardStore, useTodoStore 등)
-└── styles                  # Tailwind 설정 및 전역 스타일
+├── store                   # Zustand 상태 관리
+└── styles                  # 전역 스타일
 ```
 
 ## 주요 라이브러리
