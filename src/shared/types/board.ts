@@ -5,4 +5,7 @@ export interface Board {
   statusNo: number;
   title: string;
   todos: Todo[];
+  isArchived: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
