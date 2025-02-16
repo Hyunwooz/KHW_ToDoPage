@@ -6,10 +6,10 @@ import StatCard from '@/components/stat/StatCard';
 import { useStats } from '@/hooks/useStats';
 
 interface BoardContainerProps {
-  boards: Status[];
+  statuses: Status[];
 }
 
-export default function BoardContainer({ boards }: BoardContainerProps) {
+export default function BoardContainer({ statuses }: BoardContainerProps) {
   const { stats } = useStats();
 
   return (
@@ -20,7 +20,7 @@ export default function BoardContainer({ boards }: BoardContainerProps) {
         ))}
       </div>
       <div className='grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4'>
-        {boards.map((status) => (
+        {statuses.map((status) => (
           <BoardCardBox key={status.statusNo} status={status} />
         ))}
       </div>

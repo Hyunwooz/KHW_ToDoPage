@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchStore } from '@/store/useSearchStore';
-import SearchIcon from '../../icons/SearchIcon';
+import { SearchIcon } from '@/components/icons/Icon';
 import SearchItem from './SearchItem';
 
 export default function SearchBar() {

@@ -34,7 +34,6 @@ export const useSearchStore = create<SearchStore>()(
     {
       name: 'search-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ recentSearches: state.recentSearches }),
     },
   ),
 );

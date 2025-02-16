@@ -1,7 +1,9 @@
 import { useBoardStore } from '@/store/useBoardStore';
+import { useStatusStore } from '@/store/useStatusStore';
 
 export const useArchivedBoards = () => {
-  const { getArchivedBoards, toggleArchiveBoard } = useBoardStore();
+  const { getArchivedBoards } = useStatusStore();
+  const { toggleArchiveBoard } = useBoardStore();
 
   const archivedBoards = getArchivedBoards()
     .flatMap((status) =>
