@@ -1,8 +1,8 @@
-import { useBoardStore } from '@/store/useBoardStore';
+import { useStatusStore } from '@/store/useStatusStore';
 import { Stat } from '@/shared/types/stat';
 
 export const useStats = () => {
-  const { getActiveBoards } = useBoardStore();
+  const { getActiveBoards } = useStatusStore();
   const activeBoards = getActiveBoards();
 
   const totalBoards = activeBoards.flatMap((status) => status.boards).length;

@@ -1,10 +1,10 @@
 import { useSearchParams } from 'next/navigation';
-import { useBoardStore } from '@/store/useBoardStore';
+import { useStatusStore } from '@/store/useStatusStore';
 
 export const useSearchBoards = () => {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get('q') || '';
-  const { getAllBoards } = useBoardStore();
+  const { getAllBoards } = useStatusStore();
 
   const searchResults = searchTerm
     ? getAllBoards()

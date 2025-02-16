@@ -1,15 +1,23 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import getStatusColor from '@/shared/utils/getStatusColor';
 import { StatusColor } from '@/shared/types/status';
 import { Board } from '@/shared/types/board';
 import { Todo } from '@/shared/types/todo';
+import { useAvailableMoveBoards } from '@/hooks/useAvailableMoveBoards';
+import { useTodoDragAndDrop } from '@/hooks/useTodoDragAndDrop';
 import { useBoardStore } from '@/store/useBoardStore';
-import { useState, useRef, useEffect } from 'react';
+import { useTodoStore } from '@/store/useTodoStore';
+
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useEditableTitle } from '@/hooks/useEditableTitle';
+import { useTodoEditing } from '@/hooks/useTodoEditing';
+import { useAutoResizeTextarea } from '@/hooks/useAutoResizeTextarea';
 import {
   LargeMoreVerticalIcon,
   SmallMoreVerticalIcon,
-} from '../icons/MoreVerticalIcon';
+} from '@/components/icons/Icon';
 
 interface BoardCardProps {
   color: StatusColor;
@@ -19,147 +27,55 @@ interface BoardCardProps {
 
 const BoardCard = ({ color, board, statusNo }: BoardCardProps) => {
   const { border } = getStatusColor(color);
+  const { availableBoards } = useAvailableMoveBoards(board);
+  const { updateBoardTitle, deleteBoard, toggleArchiveBoard } = useBoardStore();
   const {
-    deleteBoard,
-    updateBoardTitle,
     addTodo,
     updateTodoContent,
-    reorderTodos,
     toggleTodo,
     deleteTodo,
-    toggleArchiveBoard,
-    getActiveBoards,
     moveTodo,
-  } = useBoardStore();
-  const [isEditing, setIsEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState(board.title);
-  const [editingTodoNo, setEditingTodoNo] = useState<number | null>(null);
-  const [editTodoContent, setEditTodoContent] = useState('');
-  const [showModal, setShowModal] = useState(false);
+    reorderTodos,
+  } = useTodoStore();
+
   const modalRef = useRef<HTMLDivElement>(null);
-  const [todoMenuOpen, setTodoMenuOpen] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   const todoMenuRef = useRef<HTMLDivElement>(null);
+  const [todoMenuOpen, setTodoMenuOpen] = useState<number | null>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        setShowModal(false);
-      }
-    };
+  useClickOutside(modalRef, () => setShowModal(false));
+  useClickOutside(todoMenuRef, () => setTodoMenuOpen(null));
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const {
+    editTitle,
+    setEditTitle,
+    isEditing,
+    setIsEditing,
+    handleTitleSubmit,
+  } = useEditableTitle(board.title, (newTitle) =>
+    updateBoardTitle(statusNo, board.boardNo, newTitle),
+  );
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        todoMenuRef.current &&
-        !todoMenuRef.current.contains(event.target as Node)
-      ) {
-        setTodoMenuOpen(null);
-      }
-    };
+  const { handleTodoDragStart, handleTodoDrop } = useTodoDragAndDrop(
+    board.boardNo,
+    reorderTodos,
+    statusNo,
+  );
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const {
+    editingTodoNo,
+    setEditingTodoNo,
+    editTodoContent,
+    setEditTodoContent,
+    handleTodoSubmit,
+  } = useTodoEditing(board.todos, updateTodoContent, statusNo, board.boardNo);
 
-  const handleTitleSubmit = () => {
-    if (editTitle.trim() && editTitle !== board.title) {
-      updateBoardTitle(statusNo, board.boardNo, editTitle.trim());
-    } else {
-      setEditTitle(board.title);
-    }
-    setIsEditing(false);
-  };
-
-  const handleTodoSubmit = (todoNo: number) => {
-    if (
-      editTodoContent.trim() &&
-      editTodoContent !== board.todos.find((t) => t.todoNo === todoNo)?.content
-    ) {
-      updateTodoContent(
-        statusNo,
-        board.boardNo,
-        todoNo,
-        editTodoContent.trim(),
-      );
-    }
-    setEditingTodoNo(null);
-  };
-
-  const handleTodoDragStart = (
-    e: React.DragEvent,
-    todo: Todo,
-    index: number,
-  ) => {
-    e.stopPropagation();
-    e.dataTransfer.setData(
-      'application/json',
-      JSON.stringify({
-        fromBoardNo: board.boardNo,
-        index,
-      }),
-    );
-    e.dataTransfer.setData('application/todo-drag', 'true');
-  };
-
-  const handleTodoDrop = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-
-    if (e.dataTransfer.types.includes('application/todo-drag')) {
-      try {
-        const data = JSON.parse(e.dataTransfer.getData('application/json'));
-        if (data.fromBoardNo === board.boardNo && data.index !== index) {
-          reorderTodos(statusNo, board.boardNo, data.index, index);
-        }
-      } catch {
-        console.error('Invalid drag data');
-      }
-    }
-  };
-
-  const availableBoards = getActiveBoards()
-    .flatMap((status) => status.boards)
-    .filter((b) => b.boardNo !== board.boardNo)
-    .map((b) => ({
-      boardNo: b.boardNo,
-      title: b.title || '(제목 없음)',
-      statusName: getActiveBoards().find((s) =>
-        s.boards.some((board) => board.boardNo === b.boardNo),
-      )?.name,
-    }));
-
-  const adjustTextareaHeight = (textarea: HTMLTextAreaElement) => {
-    textarea.style.height = 'auto'; // 높이 초기화
-    textarea.style.height = `${textarea.scrollHeight}px`; // 내용에 맞게 높이 조정
-  };
-
-  useEffect(() => {
-    if (editingTodoNo !== null) {
-      const todoTextarea = document.querySelector(
-        '[data-todo-textarea]',
-      ) as HTMLTextAreaElement;
-      if (todoTextarea) {
-        adjustTextareaHeight(todoTextarea);
-      }
-    }
-  }, [editTodoContent, editingTodoNo]);
-
-  useEffect(() => {
-    if (isEditing) {
-      const titleTextarea = document.querySelector(
-        '[data-title-textarea]',
-      ) as HTMLTextAreaElement;
-      if (titleTextarea) {
-        adjustTextareaHeight(titleTextarea);
-      }
-    }
-  }, [editTitle, isEditing]);
+  useAutoResizeTextarea('[data-todo-textarea]', [
+    editTodoContent,
+    editingTodoNo,
+  ]);
+  useAutoResizeTextarea('[data-title-textarea]', [editTitle, isEditing]);
 
   return (
     <div
@@ -173,7 +89,6 @@ const BoardCard = ({ color, board, statusNo }: BoardCardProps) => {
               value={editTitle}
               onChange={(e) => {
                 setEditTitle(e.target.value);
-                adjustTextareaHeight(e.target);
               }}
               onBlur={handleTitleSubmit}
               onKeyDown={(e) => {
@@ -229,7 +144,7 @@ const BoardCard = ({ color, board, statusNo }: BoardCardProps) => {
                 }}
                 className='flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
               >
-                {board.isArchived ? '보관 해제' : '보관하기'}
+                보관하기
               </button>
               <button
                 onClick={() => {
@@ -253,7 +168,7 @@ const BoardCard = ({ color, board, statusNo }: BoardCardProps) => {
               key={todo.todoNo}
               draggable
               data-todo-drag='true'
-              onDragStart={(e) => handleTodoDragStart(e, todo, index)}
+              onDragStart={(e) => handleTodoDragStart(e, index)}
               onDragEnd={(e) => {
                 e.stopPropagation();
               }}
@@ -281,7 +196,6 @@ const BoardCard = ({ color, board, statusNo }: BoardCardProps) => {
                       value={editTodoContent}
                       onChange={(e) => {
                         setEditTodoContent(e.target.value);
-                        adjustTextareaHeight(e.target);
                       }}
                       onBlur={() => {
                         if (editingTodoNo === todo.todoNo) {
