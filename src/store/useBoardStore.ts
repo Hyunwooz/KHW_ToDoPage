@@ -11,7 +11,7 @@ interface BoardStore {
   } | null;
   setDraggedBoard: (info: { statusNo: number; index: number } | null) => void;
   reorderBoards: (statusNo: number, fromIndex: number, toIndex: number) => void;
-  addBoard: (statusNo: number, title: string) => void;
+  addBoard: (statusNo: number) => void;
   moveBoard: (
     fromStatusNo: number,
     toStatusNo: number,
@@ -31,13 +31,13 @@ export const useBoardStore = create<BoardStore>()(
 
       setDraggedBoard: (info) => set({ draggedBoard: info }),
 
-      addBoard: (statusNo, title) =>
+      addBoard: (statusNo) =>
         set((state) => {
           useStatusStore.setState((statusState) => ({
             statuses: boardService.addBoard(
               statusState.statuses,
               statusNo,
-              title,
+              '',
               state.lastBoardNo + 1,
             ),
           }));
