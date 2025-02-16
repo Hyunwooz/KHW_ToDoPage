@@ -5,7 +5,7 @@ import { useStatusStore } from '@/store/useStatusStore';
 
 interface TodoStore {
   lastTodoNo: number;
-  addTodo: (boardNo: number, content: string) => void;
+  addTodo: (boardNo: number) => void;
   updateTodoContent: (
     statusNo: number,
     boardNo: number,
@@ -33,13 +33,13 @@ export const useTodoStore = create<TodoStore>()(
     (set) => ({
       lastTodoNo: 0,
 
-      addTodo: (boardNo, content) =>
+      addTodo: (boardNo) =>
         set((state) => {
           useStatusStore.setState((statusState) => ({
             statuses: todoService.addTodo(
               statusState.statuses,
               boardNo,
-              content,
+              '',
               state.lastTodoNo + 1,
             ),
           }));
