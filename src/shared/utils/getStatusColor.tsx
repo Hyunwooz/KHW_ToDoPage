@@ -7,37 +7,42 @@ const getStatusColor = (color: StatusColor) => {
       ring: string;
       bg: string;
       border: string;
-      boardHover: string;
-      listHover: string;
+      ringText: string;
+      ringHover: string;
+      titleHover: string;
     }
   > = {
     green: {
       ring: 'bg-green-300',
       bg: 'bg-green-50',
       border: 'border-green-300',
-      boardHover: 'hover:bg-green-50',
-      listHover: 'hover:bg-green-200',
+      ringText: 'text-green-700',
+      ringHover: 'hover:bg-green-200',
+      titleHover: 'hover:text-green-700',
     },
     blue: {
       ring: 'bg-blue-300',
       bg: 'bg-blue-50',
       border: 'border-blue-300',
-      boardHover: 'hover:bg-blue-50',
-      listHover: 'hover:bg-blue-200',
+      ringText: 'text-blue-700',
+      ringHover: 'hover:bg-blue-200',
+      titleHover: 'hover:text-blue-700',
     },
     red: {
       ring: 'bg-red-300',
       bg: 'bg-red-50',
       border: 'border-red-300',
-      boardHover: 'hover:bg-red-50',
-      listHover: 'hover:bg-red-200',
+      ringText: 'text-red-700',
+      ringHover: 'hover:bg-red-200',
+      titleHover: 'hover:text-red-700',
     },
     gray: {
       ring: 'bg-gray-300',
       bg: 'bg-gray-50',
       border: 'border-gray-300',
-      boardHover: 'hover:bg-gray-50',
-      listHover: 'hover:bg-gray-200',
+      ringText: 'text-gray-700',
+      ringHover: 'hover:bg-gray-200',
+      titleHover: 'hover:text-gray-700',
     },
   };
 
