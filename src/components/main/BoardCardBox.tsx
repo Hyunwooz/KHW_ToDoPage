@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import getStatusColor from '@/shared/utils/getStatusColor';
 import { Status } from '@/shared/types/status';
-import BoardCard from './boardCard';
+import BoardCard from './BoardCard';
 import { useBoardStore } from '@/store/useBoardStore';
 
 interface BoardCardBoxProps {
@@ -11,8 +11,8 @@ interface BoardCardBoxProps {
 }
 
 const BoardCardBox = ({ status }: BoardCardBoxProps) => {
-  const { ring, border } = getStatusColor(status.color);
-  const { reorderBoards, moveBoard, draggedBoard, setDraggedBoard } =
+  const { ring, border, ringText, ringHover } = getStatusColor(status.color);
+  const { reorderBoards, moveBoard, draggedBoard, setDraggedBoard, addBoard } =
     useBoardStore();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -55,10 +55,9 @@ const BoardCardBox = ({ status }: BoardCardBoxProps) => {
         reorderBoards(status.statusNo, fromIndex, index);
       }
     } else {
-      moveBoard(fromStatusNo, status.statusNo, fromIndex);
+      moveBoard(fromStatusNo, status.statusNo, fromIndex, index);
     }
 
-    // 상태 변경 여부와 관계없이 스타일 초기화
     handleDragEnd();
   };
 
@@ -69,7 +68,48 @@ const BoardCardBox = ({ status }: BoardCardBoxProps) => {
       } ${border} bg-gray-50 p-4`}
       onDragOver={(e) => {
         e.preventDefault();
-        if (!hoveredIndex && draggedBoard?.statusNo !== status.statusNo) {
+        const target = e.target as HTMLElement;
+
+        // 할 일 드래그 중일 때는 보드 드래그 처리하지 않음
+        if (
+          target.closest('[data-todo-drag="true"]') ||
+          e.dataTransfer.types.includes('application/todo-drag')
+        ) {
+          setIsDragging(false);
+          setIsDraggingOver(false);
+          setHoveredIndex(null);
+          return;
+        }
+
+        // 보드 드래그 처리
+        const boardElements = Array.from(
+          e.currentTarget.getElementsByClassName('board-item'),
+        );
+        const mouseY = e.clientY;
+
+        // 각 보드의 위치를 확인하여 마우스가 위치한 인덱스 찾기
+        const hoverIndex = boardElements.findIndex((boardElement) => {
+          const rect = boardElement.getBoundingClientRect();
+          const midPoint = rect.top + rect.height / 2;
+          return mouseY < midPoint;
+        });
+
+        // 마우스가 모든 보드보다 아래에 있으면 마지막 인덱스로
+        const newHoverIndex =
+          hoverIndex === -1 ? status.boards.length : hoverIndex;
+
+        // 드래그 중인 보드와 같은 인덱스가 아닐 때만 hover 효과 적용
+        if (
+          draggedBoard?.statusNo === status.statusNo &&
+          draggedBoard?.index === newHoverIndex
+        ) {
+          setHoveredIndex(null);
+        } else {
+          setHoveredIndex(newHoverIndex);
+        }
+
+        // 다른 status에서 드래그 중일 때만 isDraggingOver 설정
+        if (draggedBoard?.statusNo !== status.statusNo) {
           setIsDraggingOver(true);
         }
       }}
@@ -89,22 +129,32 @@ const BoardCardBox = ({ status }: BoardCardBoxProps) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (hoveredIndex !== null || !draggedBoard) return;
+        if (!draggedBoard) return;
 
         const { statusNo: fromStatusNo, index: fromIndex } = draggedBoard;
 
         if (fromStatusNo !== status.statusNo) {
-          moveBoard(fromStatusNo, status.statusNo, fromIndex);
+          // hoveredIndex가 null이면 boards.length를 사용 (맨 끝에 추가)
+          const targetIndex = hoveredIndex ?? status.boards.length;
+          moveBoard(fromStatusNo, status.statusNo, fromIndex, targetIndex);
         }
 
-        // 상태 변경 여부와 관계없이 스타일 초기화
         handleDragEnd();
       }}
     >
       <div className='mb-4 border-b-2 border-solid border-gray-300 pb-6'>
         <div className='mb-2 flex items-center gap-4'>
-          <h2 className='text-2xl font-bold'>{status.name}</h2>
-          <div className={`${ring} h-6 w-6 rounded-full`}></div>
+          <div className='flex flex-1 items-center gap-4'>
+            <h2 className='text-2xl font-bold'>{status.name}</h2>
+          </div>
+          <button
+            onClick={() => {
+              addBoard(status.statusNo, '');
+            }}
+            className={`flex h-8 w-20 items-center justify-center rounded-md text-black ${ringHover} ${ring} ${ringText}`}
+          >
+            <span className='text-sm font-semibold'>+ 새 보드</span>
+          </button>
         </div>
         <p className='text-sm text-gray-500'>{status.boards.length} Boards</p>
       </div>
@@ -114,11 +164,7 @@ const BoardCardBox = ({ status }: BoardCardBoxProps) => {
           {status.boards.map((board, index) => (
             <div
               key={index}
-              draggable
-              onDragStart={() => handleDragStart(index)}
-              onDragEnd={handleDragEnd}
-              onDrop={(e) => handleDrop(e, index)}
-              className={`cursor-pointer border p-1 ${
+              className={`board-item cursor-pointer border p-1 ${
                 draggedBoard?.index !== index ||
                 draggedBoard?.statusNo !== status.statusNo
                   ? border
@@ -129,8 +175,16 @@ const BoardCardBox = ({ status }: BoardCardBoxProps) => {
                   ? 'opacity-50'
                   : ''
               } ${hoveredIndex === index ? 'border-dashed' : ''}`}
+              draggable
+              onDragStart={() => handleDragStart(index)}
+              onDragEnd={handleDragEnd}
+              onDrop={(e) => handleDrop(e, index)}
             >
-              <BoardCard board={board} color={status.color} />
+              <BoardCard
+                board={board}
+                color={status.color}
+                statusNo={status.statusNo}
+              />
             </div>
           ))}
         </div>
