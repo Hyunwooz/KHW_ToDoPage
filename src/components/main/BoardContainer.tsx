@@ -2,8 +2,8 @@
 
 import BoardCardBox from './BoardCardBox';
 import { Status } from '@/shared/types/status';
-import StatCard from '@/components/stat/StatCard';
 import { useStats } from '@/hooks/useStats';
+import StatCard from '@/components/stat/StatCard';
 
 interface BoardContainerProps {
   statuses: Status[];
