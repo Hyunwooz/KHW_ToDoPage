@@ -2,7 +2,7 @@
 import StatCard from '@/components/stat/StatCard';
 import { useStats } from '@/hooks/useStats';
 
-export default function StatsPage() {
+const StatsPage = () => {
   const { statSections } = useStats();
 
   return (
@@ -26,4 +26,6 @@ export default function StatsPage() {
       ))}
     </div>
   );
-}
+};
+
+export default StatsPage;

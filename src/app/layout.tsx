@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   description: '업무의 효율을 증진시키기 위한 칸반형태의 To-Do List 입니다.',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang='ko'>
       <body className={`${pretendard.className}`}>
@@ -27,4 +27,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

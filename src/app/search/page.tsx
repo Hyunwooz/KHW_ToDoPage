@@ -3,7 +3,7 @@
 import { useSearchBoards } from '@/hooks/useSearchBoards';
 import ReadOnlyBoardCard from '@/components/common/ReadOnlyBoardCard';
 
-export default function SearchPage() {
+const SearchPage = () => {
   const { searchResults } = useSearchBoards();
 
   return (
@@ -27,4 +27,6 @@ export default function SearchPage() {
       )}
     </div>
   );
-}
+};
+
+export default SearchPage;
