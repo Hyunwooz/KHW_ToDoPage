@@ -1,51 +1,26 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSearchStore } from '@/store/useSearchStore';
+import { useRef } from 'react';
 import { SearchIcon } from '@/components/icons/Icon';
 import SearchItem from './SearchItem';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useSearch } from '@/hooks/useSearch';
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const {
+    searchTerm,
+    setSearchTerm,
+    isDropdownOpen,
+    setIsDropdownOpen,
     recentSearches,
-    addRecentSearch,
     removeRecentSearch,
     clearRecentSearches,
-  } = useSearchStore();
+    handleSubmit,
+    handleRecentSearchClick,
+  } = useSearch();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      addRecentSearch(searchTerm.trim());
-      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-      setIsDropdownOpen(false);
-    }
-  };
-
-  const handleRecentSearchClick = (term: string) => {
-    addRecentSearch(term);
-    router.push(`/search?q=${encodeURIComponent(term)}`);
-    setIsDropdownOpen(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
   return (
     <div className='relative'>
