@@ -4,9 +4,9 @@ interface TodoItemProps {
   todoNo: number;
 }
 
-const TodoItem = ({ content, isCompleted, todoNo }: TodoItemProps) => {
+const TodoItem = ({ content, isCompleted }: TodoItemProps) => {
   return (
-    <div key={todoNo} className='flex items-center gap-2 text-sm text-gray-600'>
+    <div className='flex items-center gap-2 text-sm text-gray-600'>
       <input
         type='checkbox'
         checked={isCompleted}

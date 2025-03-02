@@ -20,12 +20,10 @@ const ReadOnlyBoardCard = ({ board, onUnarchive }: BoardCardProps) => {
       <div className='mb-4 space-y-2'>
         <div className='flex items-center justify-end'>
           {board.isArchived ? (
-            <>
-              <div className='flex items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600'>
-                <ArchiveIcon />
-                <span>보관됨</span>
-              </div>
-            </>
+            <div className='flex items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600'>
+              <ArchiveIcon />
+              <span>보관됨</span>
+            </div>
           ) : (
             <div className='flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-1 text-xs text-emerald-600'>
               <ActiveIcon />
