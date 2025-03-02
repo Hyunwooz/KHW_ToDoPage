@@ -7,7 +7,7 @@ interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
-export default function ClientLayout({ children }: ClientLayoutProps) {
+const ClientLayout = ({ children }: ClientLayoutProps) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -30,4 +30,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       </main>
     </>
   );
-}
+};
+
+export default ClientLayout;

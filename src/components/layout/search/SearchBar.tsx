@@ -6,7 +6,7 @@ import SearchItem from './SearchItem';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useSearch } from '@/hooks/useSearch';
 
-export default function SearchBar() {
+const SearchBar = () => {
   const {
     searchTerm,
     setSearchTerm,
@@ -70,4 +70,6 @@ export default function SearchBar() {
       )}
     </div>
   );
-}
+};
+
+export default SearchBar;

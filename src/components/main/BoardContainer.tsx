@@ -9,7 +9,7 @@ interface BoardContainerProps {
   statuses: Status[];
 }
 
-export default function BoardContainer({ statuses }: BoardContainerProps) {
+const BoardContainer = ({ statuses }: BoardContainerProps) => {
   const { stats } = useStats();
 
   return (
@@ -26,4 +26,6 @@ export default function BoardContainer({ statuses }: BoardContainerProps) {
       </div>
     </>
   );
-}
+};
+
+export default BoardContainer;

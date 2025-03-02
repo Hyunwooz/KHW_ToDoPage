@@ -6,7 +6,7 @@ interface NavLinkProps {
   label: string;
 }
 
-export default function NavLink({ href, label }: NavLinkProps) {
+const NavLink = ({ href, label }: NavLinkProps) => {
   const pathname = usePathname();
 
   return (
@@ -21,4 +21,6 @@ export default function NavLink({ href, label }: NavLinkProps) {
       {label}
     </Link>
   );
-}
+};
+
+export default NavLink;

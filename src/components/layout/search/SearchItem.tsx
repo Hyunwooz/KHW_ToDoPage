@@ -4,11 +4,7 @@ interface SearchItemProps {
   onRemove: (term: string) => void;
 }
 
-export default function SearchItem({
-  term,
-  onItemClick,
-  onRemove,
-}: SearchItemProps) {
+const SearchItem = ({ term, onItemClick, onRemove }: SearchItemProps) => {
   return (
     <div className='group flex items-center justify-between px-3 py-2 hover:bg-gray-50'>
       <button
@@ -25,4 +21,6 @@ export default function SearchItem({
       </button>
     </div>
   );
-}
+};
+
+export default SearchItem;
